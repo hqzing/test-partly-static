@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  release:
+    types: [created]
+  push:
+    branches: [ "main" ]
+
+permissions: write-all
+
+jobs:
+  build-no-partly-static:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build
+        run: ./build-no-partly-static.sh
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: "./node/node-v24.8.0-openharmony-arm64-no-partly-static.tar.gz"
+          compression-level: 0
+          retention-days: 7
+      - name: upload release asset
+        if: github.event_name == 'release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }} 
+          asset_path: "./node/node-v24.8.0-openharmony-arm64-no-partly-static.tar.gz"
+          asset_name: "node-v24.8.0-openharmony-arm64-no-partly-static.tar.gz"
+          asset_content_type: application/octet-stream
+  build-with-partly-static:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build
+        run: ./build-with-partly-static.sh 
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: "./node/node-v24.8.0-openharmony-arm64-with-partly-static.tar.gz"
+          compression-level: 0
+          retention-days: 7
+      - name: upload release asset
+        if: github.event_name == 'release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: "./node/node-v24.8.0-openharmony-arm64-with-partly-static.tar.gz"
+          asset_name: "node-v24.8.0-openharmony-arm64-with-partly-static.tar.gz"
+          asset_content_type: application/octet-stream
