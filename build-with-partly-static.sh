@@ -34,4 +34,4 @@ make -j$(nproc)
 make install
 
 cp LICENSE node-${version}-openharmony-arm64-with-partly-static
-tar -zcf node-${version}-openharmony-arm64-no-partly-static.tar.gz node-${version}-openharmony-arm64-with-partly-static
+tar -zcf node-${version}-openharmony-arm64-with-partly-static.tar.gz node-${version}-openharmony-arm64-with-partly-static
