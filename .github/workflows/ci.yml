@@ -16,12 +16,6 @@ jobs:
         uses: actions/checkout@v4
       - name: build
         run: ./build-no-partly-static.sh
-      - name: upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          path: "./node/node-v24.8.0-openharmony-arm64-no-partly-static.tar.gz"
-          compression-level: 0
-          retention-days: 7
       - name: upload release asset
         if: github.event_name == 'release'
         uses: actions/upload-release-asset@v1
@@ -39,12 +33,6 @@ jobs:
         uses: actions/checkout@v4
       - name: build
         run: ./build-with-partly-static.sh 
-      - name: upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          path: "./node/node-v24.8.0-openharmony-arm64-with-partly-static.tar.gz"
-          compression-level: 0
-          retention-days: 7
       - name: upload release asset
         if: github.event_name == 'release'
         uses: actions/upload-release-asset@v1
